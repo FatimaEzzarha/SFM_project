@@ -1,0 +1,83 @@
+<mvc:View
+    controllerName="sfm.salesproject.controller.Master"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+    xmlns:smartTable="sap.ui.comp.smarttable"
+    xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+    xmlns="sap.m"
+>
+    <Page
+        id="page"
+        title="{i18n>title}"
+    >
+        <VBox fitContainer="true">
+            <smartFilterBar:SmartFilterBar
+                id="smartFilterBar"
+                entitySet="zc_sales_order_document"
+                persistencyKey="SmartFilter_Explored"
+                basicSearchFieldName="Bukrs"
+                enableBasicSearch="true"
+            >
+                <smartFilterBar:controlConfiguration>
+                    <smartFilterBar:ControlConfiguration key="Bukrs">
+                        <smartFilterBar:defaultFilterValues>
+                            <smartFilterBar:SelectOption low="0001" />
+                        </smartFilterBar:defaultFilterValues>
+                    </smartFilterBar:ControlConfiguration>
+                    <smartFilterBar:ControlConfiguration key="Gjahr">
+                        <smartFilterBar:defaultFilterValues>
+                            <smartFilterBar:SelectOption low="2014" />
+                        </smartFilterBar:defaultFilterValues>
+                    </smartFilterBar:ControlConfiguration>
+                </smartFilterBar:controlConfiguration>
+                <!-- layout data used to make the table growing but the filter bar fixed -->
+                <smartFilterBar:layoutData>
+                    <FlexItemData shrinkFactor="0" />
+                </smartFilterBar:layoutData>
+            </smartFilterBar:SmartFilterBar>
+            <smartTable:SmartTable
+                id="LineItemsSmartTable"
+                entitySet="zc_sales_order_document"
+                tableBindingPath="/zc_sales_order_document"
+                smartFilterId="smartFilterBar"
+                tableType="Table"
+                useVariantManagement="true"
+                useTablePersonalisation="true"
+                header="Line Items"
+                showRowCount="true"
+                persistencyKey="SmartTableAnalytical_Explored"
+                enableAutoBinding="true"
+                class="sapUiResponsiveContentPadding"
+                editTogglable="true"
+                app:useSmartToggle="true"
+            >
+                <!-- layout data used to make the table growing but the filter bar fixed -->
+                <smartTable:layoutData>
+                    <FlexItemData
+                        growFactor="1"
+                        baseSize="0%"
+                    />
+                </smartTable:layoutData>
+
+                <Table
+                    id="idSalesDocumentsTable"
+                    growing="true"
+                    growingScrollToLoad="true"
+                    growingThreshold="10"
+                    sticky="ColumnHeaders,HeaderToolbar,InfoToolbar"
+                    mode="SingleSelectLeft"
+                    itemPress=".onTableNavToDetailItemPress"
+                    selectionChange=".onTableSelectionChange"
+                >
+                    <items>
+                        <ColumnListItem
+                            id="idSalesDocumentavigationColumnListItem"
+                            type="Navigation"
+                        />
+                    </items>
+                </Table>
+            </smartTable:SmartTable>
+        </VBox>
+    </Page>
+</mvc:View>

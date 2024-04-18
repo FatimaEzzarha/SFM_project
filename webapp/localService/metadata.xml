@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:Reference Uri="./sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="./sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CAPABILITIES',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="Capabilities"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="./sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="./sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_AGGREGATION',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Aggregation.V1" Alias="Aggregation"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="./sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='LOCAL')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/>
+    </edmx:Reference>
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZC_SALES_ORDER_DOCUMENT_CDS" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="zc_sales_order_documentType" sap:label="cds view for sales order doc" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="SalesDocument"/>
+                </Key>
+                <Property Name="SalesDocument" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Sales document" sap:quickinfo="Sales Document" sap:value-list="fixed-values"/>
+                <Property Name="DocumentCategory" Type="Edm.String" MaxLength="4" sap:label="SD Document Category"/>
+                <Property Name="DocumentType" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Sales Document Type"/>
+                <Property Name="CreationDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Created on" sap:quickinfo="Date on which the record was created"/>
+                <Property Name="Processing_Status" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="Overall Status" sap:quickinfo="Overall Processing Status (Item)"/>
+                <Property Name="Rejection_Status" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="Rejection Status" sap:quickinfo="Rejection Status (Item)"/>
+                <NavigationProperty Name="to_Item" Relationship="ZC_SALES_ORDER_DOCUMENT_CDS.assoc_2F3F9E5722DCB0DF013EEC62B8ABCE58" FromRole="FromRole_assoc_2F3F9E5722DCB0DF013EEC62B8ABCE58" ToRole="ToRole_assoc_2F3F9E5722DCB0DF013EEC62B8ABCE58"/>
+            </EntityType>
+            <EntityType Name="ZC_VALUEHELP_VBAPType" sap:label="cds view for value help of vbap table" sap:value-list="true" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Sales_Document"/>
+                </Key>
+                <Property Name="Sales_Document" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Sales document" sap:quickinfo="Sales Document"/>
+                <Property Name="material_number" Type="Edm.String" MaxLength="40" sap:display-format="UpperCase" sap:label="Material" sap:quickinfo="Material Number"/>
+            </EntityType>
+            <EntityType Name="ZI_Item_Sales_docType" sap:label="cds view for items sales document" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="SalesDocument"/>
+                    <PropertyRef Name="salesdocumentitem"/>
+                </Key>
+                <Property Name="SalesDocument" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Sales document" sap:quickinfo="Sales Document"/>
+                <Property Name="salesdocumentitem" Type="Edm.String" Nullable="false" MaxLength="6" sap:display-format="NonNegative" sap:label="Sales Document Item"/>
+                <Property Name="MaterialNumber" Type="Edm.String" MaxLength="40" sap:display-format="UpperCase" sap:label="Material" sap:quickinfo="Material Number"/>
+                <Property Name="Creation_Date" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Created on" sap:quickinfo="Date on which the record was created"/>
+                <Property Name="Quantity" Type="Edm.Decimal" Precision="15" Scale="3" sap:unit="UnitofMeasure" sap:label="Order Quantity" sap:quickinfo="Cumulative order quantity in sales units"/>
+                <Property Name="UnitofMeasure" Type="Edm.String" MaxLength="3" sap:label="Unit of Measure" sap:quickinfo="Condition Unit" sap:semantics="unit-of-measure"/>
+                <NavigationProperty Name="to_SalesDocument" Relationship="ZC_SALES_ORDER_DOCUMENT_CDS.assoc_2F3F9E5722DCB0DF013EEC62B8ABCE58" FromRole="ToRole_assoc_2F3F9E5722DCB0DF013EEC62B8ABCE58" ToRole="FromRole_assoc_2F3F9E5722DCB0DF013EEC62B8ABCE58"/>
+            </EntityType>
+            <Association Name="assoc_2F3F9E5722DCB0DF013EEC62B8ABCE58" sap:content-version="1">
+                <End Type="ZC_SALES_ORDER_DOCUMENT_CDS.zc_sales_order_documentType" Multiplicity="1" Role="FromRole_assoc_2F3F9E5722DCB0DF013EEC62B8ABCE58">
+                    <OnDelete Action="Cascade"/>
+                </End>
+                <End Type="ZC_SALES_ORDER_DOCUMENT_CDS.ZI_Item_Sales_docType" Multiplicity="*" Role="ToRole_assoc_2F3F9E5722DCB0DF013EEC62B8ABCE58"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_assoc_2F3F9E5722DCB0DF013EEC62B8ABCE58">
+                        <PropertyRef Name="SalesDocument"/>
+                    </Principal>
+                    <Dependent Role="ToRole_assoc_2F3F9E5722DCB0DF013EEC62B8ABCE58">
+                        <PropertyRef Name="SalesDocument"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <EntityContainer Name="ZC_SALES_ORDER_DOCUMENT_CDS_Entities" m:IsDefaultEntityContainer="true" sap:message-scope-supported="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="zc_sales_order_document" EntityType="ZC_SALES_ORDER_DOCUMENT_CDS.zc_sales_order_documentType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="ZC_VALUEHELP_VBAP" EntityType="ZC_SALES_ORDER_DOCUMENT_CDS.ZC_VALUEHELP_VBAPType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="ZI_Item_Sales_doc" EntityType="ZC_SALES_ORDER_DOCUMENT_CDS.ZI_Item_Sales_docType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <AssociationSet Name="assoc_2F3F9E5722DCB0DF013EEC62B8ABCE58" Association="ZC_SALES_ORDER_DOCUMENT_CDS.assoc_2F3F9E5722DCB0DF013EEC62B8ABCE58" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="zc_sales_order_document" Role="FromRole_assoc_2F3F9E5722DCB0DF013EEC62B8ABCE58"/>
+                    <End EntitySet="ZI_Item_Sales_doc" Role="ToRole_assoc_2F3F9E5722DCB0DF013EEC62B8ABCE58"/>
+                </AssociationSet>
+            </EntityContainer>
+            <Annotations Target="ZC_SALES_ORDER_DOCUMENT_CDS.zc_sales_order_documentType/SalesDocument" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.ValueList">
+                    <Record>
+                        <PropertyValue Property="Label" String="cds view for value help of vbap table"/>
+                        <PropertyValue Property="CollectionPath" String="ZC_VALUEHELP_VBAP"/>
+                        <PropertyValue Property="SearchSupported" Bool="false"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="SalesDocument"/>
+                                    <PropertyValue Property="ValueListProperty" String="Sales_Document"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="material_number"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="Common.ValueListWithFixedValues"/>
+            </Annotations>
+            <Annotations Target="ZC_SALES_ORDER_DOCUMENT_CDS.ZC_SALES_ORDER_DOCUMENT_CDS_Entities" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Aggregation.ApplySupported">
+                    <Record>
+                        <PropertyValue Property="Transformations">
+                            <Collection>
+                                <String>aggregate</String>
+                                <String>groupby</String>
+                                <String>filter</String>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Rollup" EnumMember="None"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <atom:link rel="self" href="http://dlwr-trac-p2.dcsc.be:8000/sap/opu/odata/sap/ZC_SALES_ORDER_DOCUMENT_CDS/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://dlwr-trac-p2.dcsc.be:8000/sap/opu/odata/sap/ZC_SALES_ORDER_DOCUMENT_CDS/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
